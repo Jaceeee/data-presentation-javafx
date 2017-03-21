@@ -5,10 +5,13 @@
  */
 package secondlab;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Juan Carlos
  */
+
 public class GlobalContext {
     public static final GlobalContext gc = new GlobalContext();
     public static boolean numericChoice = false;
@@ -43,11 +46,54 @@ public class GlobalContext {
         numericChoice = (numericChoice) ? false : true;
     }
     
-    static boolean choiceSelected( ){
+    static boolean choiceSelected() {
         if(!categoricalChoice && !numericChoice) {
             return false;
         } else {
             return true;
         }
     }        
+    
+//    removes duplicates
+    public static String[] removeDuplicates() {
+        String[] array2 = array;
+        String[] array3;
+
+        Arrays.sort(array2);       
+        int current = 0;
+
+        for(int i = 0; i<n; i++) {
+            if(!array2[i].equals(array2[current])){
+                array2[++current] = array2[i];
+            }
+        }
+
+        array3 = new String[current+1];
+        for(int i = 0; i < current+1; i++) {
+            array3 = array2;
+        }
+
+        return array3;
+    }
+   
+//   returns the float data percentages for the table (categorical data)
+    public static float[] percentageComp(){       
+       String[] array2 = array;
+       Arrays.sort(array2);       
+       
+       String[] array3 = removeDuplicates();
+       float[] a = new float[array3.length];
+       
+       for(int i = 0, counter = 0; i<n; i++){
+           for(int j = 0; j<n; j++){
+               if(array2[j].equals(array3[i])){
+                   counter++;
+               }
+           }
+           a[i] = counter/array2.length;
+       }
+       
+       return a;
+   }
+   
 }

@@ -24,8 +24,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -56,13 +58,14 @@ public class MainController implements Initializable {
     
 //    Table template
     @FXML private TableView<Data> tableView;
-    @FXML private TableColumn<Data, > 
-            
-    
+    @FXML private TableColumn<Data, String> valueLabel;
+    @FXML private TableColumn<Data, Float> percentage;
+        
 //    auxiliary variables
     boolean f1;
     ObservableList<String> itemList;
-        
+    ObservableList<Data> tableList;
+    
     @FXML
     private void handleInputAction1(ActionEvent event) throws IOException {        
         if(GlobalContext.choiceSelected()) {
@@ -99,7 +102,10 @@ public class MainController implements Initializable {
         if(GlobalContext.counter == GlobalContext.n){
             main = (Stage) proceed3.getScene().getWindow();
             if(GlobalContext.categoricalChoice){
-                FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));    
+                FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));                
+                tableList = FXCollections.observableArrayList();
+                tableView.setItems(tableList);
+                valueLabel.setCellValueFactory(new PropertyValueFactory<Data, String> ("Value Label"));
             } else {
                 FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
             }
