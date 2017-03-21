@@ -24,8 +24,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -50,13 +53,14 @@ public class MainController implements Initializable {
 //    third template
     @FXML private Button proceed3;
     @FXML private Button enter;
+    //@FXML private 
     @FXML private Button back2;
     @FXML private TextField dataField;    
     @FXML private ListView inputDisplay;
     
 //    Table template
     @FXML private TableView<Data> tableView;
-    @FXML private TableColumn<Data, > 
+    @FXML private TableColumn<Data, Integer> tablecol1;
             
     
 //    auxiliary variables
@@ -132,6 +136,14 @@ public class MainController implements Initializable {
                 dataField.setEditable(false);
                 enter.setDisable(true);
             }
+        }
+        dataField.clear();
+    }
+    
+    @FXML
+    public void enterListener(KeyEvent e){
+        if(e.getCode() == KeyCode.ENTER){
+            enter.fire();
         }
     }
     
