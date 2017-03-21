@@ -16,10 +16,10 @@ public class Data {
     private final SimpleStringProperty valueLabel;
     private final SimpleFloatProperty percentage;
     
-    public Data(){
+    public Data(String valueLabel, Float percentage){
         super();
-        this.valueLabel = new SimpleStringProperty();
-        this.percentage = new SimpleFloatProperty();
+        this.valueLabel = new SimpleStringProperty(valueLabel);
+        this.percentage = new SimpleFloatProperty(percentage);
     }
     
     public String getValueLabel(){
@@ -28,10 +28,5 @@ public class Data {
     
     public float getPercentage(){
         return percentage.get();
-    }
-    
-    public Data processData(){
-        
-        return new Data();
-    }
+    }        
 }

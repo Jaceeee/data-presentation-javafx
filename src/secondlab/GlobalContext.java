@@ -22,6 +22,7 @@ public class GlobalContext {
     public static String[] array;
     public static int counter = 0;
     public static String errorMessage = "";
+    public static Data[] data;
     
     public GlobalContext getInstance(){
         return gc;
@@ -69,6 +70,7 @@ public class GlobalContext {
         }
 
         array3 = new String[current+1];
+        
         for(int i = 0; i < current+1; i++) {
             array3 = array2;
         }
@@ -77,12 +79,12 @@ public class GlobalContext {
     }
    
 //   returns the float data percentages for the table (categorical data)
-    public static float[] percentageComp(){       
+    public static Float[] percentageComp(){       
        String[] array2 = array;
        Arrays.sort(array2);       
        
        String[] array3 = removeDuplicates();
-       float[] a = new float[array3.length];
+       Float[] a = new Float[array3.length];
        
        for(int i = 0, counter = 0; i<n; i++){
            for(int j = 0; j<n; j++){
@@ -90,10 +92,21 @@ public class GlobalContext {
                    counter++;
                }
            }
-           a[i] = counter/array2.length;
+           a[i] = new Float(counter/array2.length);
        }
        
        return a;
    }
    
+    public static void setData(){
+        if(categoricalChoice){
+            String[] valueLabels = removeDuplicates();
+            Float[] percentages = percentageComp();
+            for(int i = 0; i < n; i++) {
+                data[i] = new Data(valueLabels[i],percentages[i]);
+            }
+        } else {
+            
+        }
+    }
 }

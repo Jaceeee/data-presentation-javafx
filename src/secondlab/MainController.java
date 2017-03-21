@@ -103,9 +103,10 @@ public class MainController implements Initializable {
             main = (Stage) proceed3.getScene().getWindow();
             if(GlobalContext.categoricalChoice){
                 FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));                
-                tableList = FXCollections.observableArrayList();
+                tableList = FXCollections.observableArrayList(GlobalContext.data);
                 tableView.setItems(tableList);
                 valueLabel.setCellValueFactory(new PropertyValueFactory<Data, String> ("Value Label"));
+                percentage.setCellValueFactory(new PropertyValueFactory<Data, Float> ("Percentages"));
             } else {
                 FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
             }
