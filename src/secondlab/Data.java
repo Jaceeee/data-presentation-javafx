@@ -13,13 +13,55 @@ import javafx.beans.property.SimpleStringProperty;
  * @author Juan Carlos
  */
 public class Data {
+//    Summary Table
     private final SimpleStringProperty valueLabel;
     private final SimpleFloatProperty percentage;
     
-    public Data(String valueLabel, Float percentage){
-        super();
+//    Frequency Distribution Table
+    private final SimpleStringProperty classLimits;
+    private final SimpleStringProperty trueClassLimits;
+    private final SimpleFloatProperty midpoints;
+    private final SimpleFloatProperty frequency;
+    private final SimpleFloatProperty frequencyPercentage;
+    private final SimpleFloatProperty cumulativeFrequency;
+    private final SimpleFloatProperty cumulativeFrequencyPercentage;
+    
+    public Data(String valueLabel, Float percentage){        
         this.valueLabel = new SimpleStringProperty(valueLabel);
         this.percentage = new SimpleFloatProperty(percentage);
+        this.classLimits = null;
+        this.trueClassLimits = null;
+        this.midpoints = null;
+        this.frequency = null;
+        this.frequencyPercentage = null;
+        this.cumulativeFrequency = null;
+        this.cumulativeFrequencyPercentage = null;
+    }
+    
+    public Data(String classLimits, String trueClassLimits, Float midpoints, Float frequency, 
+            Float frequencyPercentage, Float cumulativeFrequency, Float cumulativeFrequencyPercentage) {
+        
+        this.valueLabel = null;
+        this.percentage = null;
+        this.classLimits = new SimpleStringProperty(classLimits);
+        this.trueClassLimits = new SimpleStringProperty(trueClassLimits);
+        this.midpoints = new SimpleFloatProperty(midpoints);
+        this.frequency = new SimpleFloatProperty(frequency);
+        this.frequencyPercentage = new SimpleFloatProperty(frequencyPercentage);
+        this.cumulativeFrequency = new SimpleFloatProperty(cumulativeFrequency);
+        this.cumulativeFrequencyPercentage = new SimpleFloatProperty(cumulativeFrequencyPercentage);
+    }
+    
+    public Data(){        
+        this.valueLabel = null;
+        this.percentage = null;
+        this.classLimits = null;
+        this.trueClassLimits = null;
+        this.midpoints = null;
+        this.frequency = null;
+        this.frequencyPercentage = null;
+        this.cumulativeFrequency = null;
+        this.cumulativeFrequencyPercentage = null;        
     }
     
     public String getValueLabel(){
@@ -29,4 +71,32 @@ public class Data {
     public float getPercentage(){
         return percentage.get();
     }        
+    
+    public String getClassLimits() {
+        return classLimits.get();
+    }
+    
+    public String getTrueClassLimits() {
+        return trueClassLimits.get();
+    }
+    
+    public float getMidpoints() {
+        return midpoints.get();
+    }
+    
+    public float getFrequency(){
+        return frequency.get();
+    }
+    
+    public float getFrequencyPercentage() {
+        return frequencyPercentage.get();
+    }
+    
+    public float getCumulativeFrequency() {
+        return cumulativeFrequency.get();
+    }
+    
+    public float getCumulativeFrequencyPercentage() {
+        return cumulativeFrequencyPercentage.get();
+    }
 }

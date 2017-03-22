@@ -12,14 +12,16 @@ package secondlab;
 public class Validation {
     public static boolean validate(String s) {
         byte type = GlobalContext.inputType;
-        if(type == 1) {
+        if(type == 1 && GlobalContext.categoricalChoice) {
             return isAlpha(s);
-        } else if(type == 2){
+        } else if(type == 2 && GlobalContext.categoricalChoice){
             return isString(s);
         } else if(type == 3) {
             return isNumeric(s);
-        } else {
+        } else if(type == 4 && GlobalContext.numericChoice){
             return isFloat(s);
+        } else {
+            return false;
         }
     }        
     

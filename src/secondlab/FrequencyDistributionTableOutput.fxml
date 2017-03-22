@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="secondlab.MainController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="secondlab.MainController">
+   <children>
+      <TableView layoutX="20.0" layoutY="16.0" prefHeight="343.0" prefWidth="567.0">
+        <columns>
+          <TableColumn fx:id="classLimits" prefWidth="88.0" text="C1" />
+          <TableColumn fx:id="trueClassLimits" minWidth="0.0" prefWidth="73.0" text="C2" />
+            <TableColumn fx:id="midpoints" minWidth="0.0" prefWidth="87.0" text="Column X" />
+            <TableColumn fx:id="frequency" prefWidth="87.0" text="Column X" />
+            <TableColumn fx:id="frequencyPercentage" prefWidth="67.0" text="Column X" />
+            <TableColumn fx:id="cumulativeFrequency" prefWidth="69.0" text="Column X" />
+            <TableColumn fx:id="cumulativeFrequencyPercentage" prefWidth="101.0" text="Column X" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
