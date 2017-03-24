@@ -22,5 +22,10 @@
       <TextField fx:id="nField" layoutX="204.0" layoutY="141.0" prefHeight="25.0" prefWidth="64.0" />
       <Button fx:id="proceed2" layoutX="236.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleInputAction2" text="Proceed" />
       <Button fx:id="back1" layoutX="123.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleBackAction1" text="Back" />
+      <Label fx:id="errorMessage1" layoutX="80.0" layoutY="53.0" prefHeight="20.0" prefWidth="296.0" textFill="RED">
+         <font>
+            <Font name="Bell MT" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

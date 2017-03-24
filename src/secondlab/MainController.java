@@ -21,10 +21,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -39,6 +43,7 @@ public class MainController implements Initializable {
     @FXML private Button proceed1;
     @FXML private RadioButton categorical;
     @FXML private RadioButton numeric;
+    @FXML private Label errorMessage1;
     
 //    second template
     @FXML private Button proceed2;
@@ -54,27 +59,38 @@ public class MainController implements Initializable {
     @FXML private ListView inputDisplay;
     
 //    Table template
-    @FXML private TableView<Data> summaryTableView;
+    @FXML private Label summaryTableLabel;
+    @FXML private Label frequencyDistributionTableLabel;
+    @FXML private TableView<secondlab.Data> summaryTableView;
+    @FXML private TableView<secondlab.Data> frequencyDistributionTableView;
     
 //    Summary Table
-    @FXML private TableColumn<Data, String> valueLabel;
-    @FXML private TableColumn<Data, Float> percentage;
-//    Frequency Distribution
-    @FXML private TableColumn<Data, String> classLimits;
-    @FXML private TableColumn<Data, String> trueClassLimits;
-    @FXML private TableColumn<Data, Float> midpoints;
-    @FXML private TableColumn<Data, Float> frequency;
-    @FXML private TableColumn<Data, Float> frequencyPercentage;
-    @FXML private TableColumn<Data, Float> cumulativeFrequency;
-    @FXML private TableColumn<Data, Float> cumulativeFrequencyPercentage;
+    @FXML private TableColumn<secondlab.Data, String> valueLabel;
+    @FXML private TableColumn<secondlab.Data, Float> percentage;
     
-    @FXML private Button proceed4;
-    @FXML private Button back3;
+//    Frequency Distribution    
+    @FXML private TableColumn<secondlab.Data, String> classLimits;
+    @FXML private TableColumn<secondlab.Data, String> trueClassLimits;
+    @FXML private TableColumn<secondlab.Data, Float> midpoints;
+    @FXML private TableColumn<secondlab.Data, Integer> frequency;
+    @FXML private TableColumn<secondlab.Data, Float> frequencyPercentage;
+    @FXML private TableColumn<secondlab.Data, Integer> cumulativeFrequency;
+    @FXML private TableColumn<secondlab.Data, Float> cumulativeFrequencyPercentage;
+        
+    @FXML private Button proceed4a;
+    @FXML private Button proceed4b;
+    @FXML private Button back3a;
+    @FXML private Button back3b;
     
+    //    Pie Chart
+    @FXML private PieChart pieChart;
+    @FXML private Label pieChartLabel;
+    @FXML private Button proceed5a;
+    @FXML private Button backToMainMenu;
         
 //    auxiliary variables    
     ObservableList<String> itemList;
-    ObservableList<Data> tableList = FXCollections.observableArrayList();
+    ObservableList<secondlab.Data> tableList = FXCollections.observableArrayList();
     
     @FXML
     private void handleInputAction1(ActionEvent event) throws IOException {        
@@ -93,42 +109,44 @@ public class MainController implements Initializable {
         if(Validation.isNumeric(nField.getText()) && Validation.checkLimit(Integer.parseInt(nField.getText()))) {
             GlobalContext.n = Integer.parseInt(nField.getText());
             GlobalContext.title = titleField.getText();
-            GlobalContext.array = new String[GlobalContext.n];
+            GlobalContext.categoricalArray = new String[GlobalContext.n];
             GlobalContext.counter = 0;
             
             main = (Stage) proceed2.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("SecondaryInput.fxml"));
             Scene scene = new Scene(root);
             main.setScene(scene);
-            main.show();
-            GlobalContext.f2 = true;
+            main.show();            
         } else {
-            System.out.println("Hello");  
+            errorMessage1.setText("Wrong input detected");
         }
     }
     
     @FXML 
-    private void handleInputAction3(ActionEvent event) throws IOException {                                        
+    private void handleInputAction3(ActionEvent event) throws IOException {        
+        GlobalContext.f2 = true;
         main = (Stage) proceed3.getScene().getWindow();
-        if(GlobalContext.categoricalChoice) {
-            root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));
+        if(GlobalContext.categoricalChoice) {            
+            root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));            
         } else {
-            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
-        }
-                
+            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));            
+        }                
+        
         Scene scene = new Scene(root);
         main.setScene(scene);
-        main.show();        
+        main.show();
+        GlobalContext.f2 = false;        
     }
     
     @FXML
-    private void handleInputAction4(ActionEvent event) throws IOException {
-//        main = (Stage) proceed2.getScene().getWindow();
-//        root = FXMLLoader.load(getClass().getResource("SecondaryInput.fxml"));
-//        Scene scene = new Scene(root);
-//        main.setScene(scene);
-//        main.show();
-        GlobalContext.f2 = false;
+    private void handleInputAction4(ActionEvent event) throws IOException {        
+        GlobalContext.f3 = true;
+        main = (Stage) proceed4a.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("PieChart.fxml"));
+        Scene scene = new Scene(root);
+        main.setScene(scene);
+        main.show();        
+        GlobalContext.f3 = false;
     }
         
     @FXML
@@ -144,14 +162,22 @@ public class MainController implements Initializable {
         }
         
         if(GlobalContext.f1) {
-            GlobalContext.array[GlobalContext.counter++] = text;     
-            itemList = FXCollections.observableArrayList(GlobalContext.array);
+            GlobalContext.categoricalArray[GlobalContext.counter++] = text;     
+            itemList = FXCollections.observableArrayList(GlobalContext.categoricalArray);
             inputDisplay.setItems(itemList);
             
             if(GlobalContext.counter == GlobalContext.n) {
                 dataField.setEditable(false);
                 enter.setDisable(true);
             }
+            dataField.setText("");
+        }
+    }
+    
+    @FXML
+    public void enterListener(KeyEvent e){
+        if(e.getCode() == KeyCode.ENTER){
+            enter.fire();            
         }
     }
     
@@ -169,6 +195,7 @@ public class MainController implements Initializable {
     private void handleBackAction2(ActionEvent event) throws IOException {
         GlobalContext.n = 0;
         GlobalContext.title = "";
+        GlobalContext.f2 = false;
         itemList = null;
         
         main = (Stage) back2.getScene().getWindow();
@@ -178,15 +205,34 @@ public class MainController implements Initializable {
         main.show();
     }
     
+    @FXML
     private void handleBackAction3(ActionEvent event) throws IOException {
-        GlobalContext.data = new Data[0];
+        GlobalContext.categoricalData = new secondlab.Data[0];        
         tableList = null;
         
-        main = (Stage) proceed2.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("SecondaryInput.fxml"));
+        if(event.getSource() == backToMainMenu)
+            main = (Stage) backToMainMenu.getScene().getWindow();
+        else
+            main = (Stage) back3a.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
+        GlobalContext.initialize();
+    }
+    
+    @FXML
+    private void handleBackAction4(ActionEvent event) throws IOException {
+        GlobalContext.f2 = true;
+        
+        main = (Stage) proceed5a.getScene().getWindow();
+        if(GlobalContext.categoricalChoice)
+            root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));
+        
+        Scene scene = new Scene(root);
+        main.setScene(scene);
+        main.show();
+        GlobalContext.f2 = false;
     }
     
     @FXML
@@ -195,30 +241,42 @@ public class MainController implements Initializable {
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        GlobalContext.f1 = false;        
+    public void initialize(URL url, ResourceBundle rb) {        
         if(GlobalContext.f2) {
-            GlobalContext.setData();
-            tableList = FXCollections.observableArrayList(GlobalContext.data);
+            GlobalContext.setData();            
             
             if(GlobalContext.categoricalChoice){                
-                valueLabel.setCellValueFactory(new PropertyValueFactory<Data, String> ("ValueLabel"));
-                percentage.setCellValueFactory(new PropertyValueFactory<Data, Float> ("Percentage"));
+                tableList = FXCollections.observableArrayList(GlobalContext.categoricalData);
+                valueLabel.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ValueLabel"));
+                percentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float> ("Percentage"));
 
                 summaryTableView.setItems(tableList);
-                summaryTableView.setVisible(true);
-                valueLabel.setVisible(true);
-                valueLabel.setVisible(true);
+                summaryTableView.setVisible(true);                
+                summaryTableLabel.setText(GlobalContext.title);            
             }
             else if(GlobalContext.numericChoice) {
-                classLimits.setCellValueFactory(new PropertyValueFactory<Data, String> ("ClassLimits"));
-                trueClassLimits.setCellValueFactory(new PropertyValueFactory<Data, String>("TrueClassLimits"));
-                midpoints.setCellValueFactory(new PropertyValueFactory<Data, Float>("Midpoints"));
-                frequency.setCellValueFactory(new PropertyValueFactory<Data, Float>("Frequency"));
-                frequencyPercentage.setCellValueFactory(new PropertyValueFactory<Data, Float>("FrequencyPercentages"));
-                cumulativeFrequency.setCellValueFactory(new PropertyValueFactory<Data, Float>("CumulativeFrequency"));
-                cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<Data, Float>("CumulativeFrequencyPercentages"));
+                tableList = FXCollections.observableArrayList(GlobalContext.numericData);
+                classLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ClassLimits"));
+                trueClassLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String>("TrueClassLimits"));
+                midpoints.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("Midpoints"));
+                frequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("Frequency"));
+                frequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("FrequencyPercentages"));
+                cumulativeFrequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("CumulativeFrequency"));
+                cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("CumulativeFrequencyPercentages"));
+                
+                frequencyDistributionTableView.setItems(tableList);
+                frequencyDistributionTableView.setVisible(true);
+                frequencyDistributionTableLabel.setText(GlobalContext.title);
+                
             }
+        }        
+        if(GlobalContext.f3){
+            ObservableList<PieChart.Data> tempList = FXCollections.observableArrayList();
+            for(secondlab.Data d : GlobalContext.categoricalData) {
+                tempList.add(new PieChart.Data(d.getValueLabel(), d.getPercentage()));
+            }            
+            pieChart.setData(tempList);
+            pieChartLabel.setText(GlobalContext.title);
         }
     }                
     

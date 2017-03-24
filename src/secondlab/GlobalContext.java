@@ -19,11 +19,13 @@ public class GlobalContext {
     public static int n;
     public static byte inputType;
     public static String title;
-    public static String[] array;
+    public static String[] categoricalArray;
+    public static float[] numericArray;
     public static int counter = 0;
     public static String errorMessage = "";
-    public static Data[] data;
-    public static boolean f1,f2;
+    public static Data[] categoricalData;
+    public static Data[] numericData;
+    public static boolean f1,f2,f3,f4;
     
     public GlobalContext getInstance(){
         return gc;
@@ -35,8 +37,11 @@ public class GlobalContext {
         n = 0;
         inputType = 0;
         title = "";
-        array = new String[0];
+        categoricalArray = new String[0];
+        numericArray = new float[0];
         counter = 0;
+        f2 = f3 = f4 = false;
+        f1 = true;
     }        
         
     
@@ -58,7 +63,7 @@ public class GlobalContext {
     
 //    removes duplicates
     public static String[] removeDuplicates() {
-        String[] array2 = array;
+        String[] array2 = Arrays.copyOf(categoricalArray, categoricalArray.length);
         String[] array3;
 
         Arrays.sort(array2);       
@@ -81,11 +86,11 @@ public class GlobalContext {
    
 //   returns the float data percentages for the table (categorical data)
     public static Float[] percentageComp(){       
-       String[] array2 = array;
+       String[] array2 = categoricalArray;
        Arrays.sort(array2);       
        
        String[] array3 = removeDuplicates();
-       Float[] a = new Float[array3.length];
+       Float[] a = new Float[array3.length];              
        
        for(int i = 0, counter; i<array3.length; i++){
            counter = 0;
@@ -95,6 +100,7 @@ public class GlobalContext {
                }
            }
            a[i] = new Float(((float)counter/(float)n));
+           System.out.println(a[i]);
        }
        
        return a;
@@ -104,14 +110,146 @@ public class GlobalContext {
         if(categoricalChoice){
             String[] valueLabels = removeDuplicates();
             Float[] percentages = percentageComp();
-            data = new Data[valueLabels.length];
-            
-            System.out.println(valueLabels.length);
-            for(int i = 0; i < data.length; i++) {
-                data[i] = new Data(valueLabels[i],percentages[i]*100);
+            categoricalData = new Data[valueLabels.length];
+                        
+            for(int i = 0; i < categoricalData.length; i++) {
+                categoricalData[i] = new Data(valueLabels[i],percentages[i]*100);
             }
-        } else {
+        } else if(numericChoice) {
+            System.out.println(getNumOfClasses());
+            numericArray = new float[n];
             
+//            populating the numeric array
+            for(int i = 0; i<n; i++){
+                numericArray[i] = Float.parseFloat(categoricalArray[i]);
+            }                                    
+            
+            numericData = new Data[getNumOfClasses()];
+            
+            for(int i = 0; i<getNumOfClasses(); i++){
+                String[] dataPiece = combineNumericData(i).split(":");
+                numericData[i] = new Data(dataPiece[0],
+                                          dataPiece[1],
+                                          Float.parseFloat(dataPiece[2]),
+                                          Integer.parseInt(dataPiece[3]),
+                                          Float.parseFloat(dataPiece[4]),
+                                          Integer.parseInt(dataPiece[5]),
+                                          Float.parseFloat(dataPiece[6]));
+            }
         }
+    }
+    
+    public static int getNumOfClasses(){
+        return (int)Math.floor((3.322*(Math.log10(n)) + 1));
+    }
+    
+    public static float getMinimum(){
+        float min = numericArray[0];
+        for(int i = 0; i<n; i++){
+            if(numericArray[i] < min){
+                min = numericArray[i];
+            }
+        }
+        return min;
+    }
+    
+    public static float getMaximum(){
+        float max = numericArray[0];
+        for(int i = 0; i<n; i++){
+            if(numericArray[i] > max){
+                max = numericArray[i];
+            }
+        }
+        
+        return max;
+    }
+    
+    public static float getLowerBound(int i) {
+        return (i != 0) ? getMinimum() + (i * getClassWidth()) + 1 : getMinimum();
+    }
+    
+    public static float getUpperBound(int i){
+        return (i != getNumOfClasses() - 1) ? (float) (getLowerBound(i) + Math.ceil( getClassWidth())) : getMaximum();
+    }
+    
+    public static float getClassWidth() {
+        return (float) Math.ceil(getRange() / getNumOfClasses());
+    }
+    
+    public static float getRange(){
+        return getMaximum() - getMinimum();
+    }
+        
+    public static float getMidpoint(int i) {
+        return (getUpperBound(i) + getLowerBound(i)) / 2;
+    }
+    
+    public static float getSmallestPlaceValue(float value) {        
+        float d = 1;
+        boolean t = (value % d) == 0;
+        
+        while(!t) {
+            d *= 0.1;
+            t = (value % d) == 0;
+        }
+        
+        return (float) (d * 0.1);
+    }
+    
+    public static float getTrueLowerClassLimit(int i) {
+        float lowerBound = getLowerBound(i);
+        return lowerBound - (getSmallestPlaceValue(lowerBound) * 5);
+    }
+    
+    public static float getTrueUpperClassLimit(int i) {
+        float upperBound = getUpperBound(i);
+        return upperBound + (getSmallestPlaceValue(upperBound) * 5);
+    }
+    
+    public static int getFrequency(float lowerClassLimit, float upperClassLimit) {
+        int frequency = 0;
+        
+        for(int i = 0; i<n; i++){
+            if(numericArray[i] >= lowerClassLimit && numericArray[i] < upperClassLimit) {
+                frequency++;
+            }
+        }
+        
+        return frequency;
+    }
+    
+    public static float getFrequencyPercentage(int frequency) {
+        return frequency / n;
+    }
+    
+    public static int getCumulativeFrequency(int i) {
+        if(i == 0) {
+            return getFrequency(getTrueLowerClassLimit(i), getTrueUpperClassLimit(i));
+        } else {
+            return getCumulativeFrequency(i - 1) + getFrequency(getTrueLowerClassLimit(i), getTrueUpperClassLimit(i));
+        }                
+    }
+    
+    public static float getCumulativeFrequencyPercentage(int i) {
+        return getCumulativeFrequency(i)/n;
+    }
+    
+    public static String combineNumericData(int i) {
+        // class limits
+        String comb = String.format("%.1f-%.1f", getLowerBound(i), getUpperBound(i)) + ":";
+        // true class limits
+        comb += String.format("%.1f-%.1f", getTrueLowerClassLimit(i), getTrueUpperClassLimit(i)) + ":";
+        // midpoint
+        comb += String.format("%.1f", getMidpoint(i)) + ":";
+        // frequency
+        comb += String.format("%d", getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) + ":";
+        // percentage
+        comb += String.format("%.1f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i)))) + ":";
+        // cumulative frequency
+        comb += String.format("%d", getCumulativeFrequency(i)) + ":";
+        // cumulative frequency percentage
+        comb += String.format("%.1f", getCumulativeFrequencyPercentage(i));
+        
+        return comb;
     }
 }

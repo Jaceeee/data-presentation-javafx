@@ -5,7 +5,9 @@
  */
 package secondlab;
 
+import java.text.DecimalFormat;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -21,9 +23,9 @@ public class Data {
     private final SimpleStringProperty classLimits;
     private final SimpleStringProperty trueClassLimits;
     private final SimpleFloatProperty midpoints;
-    private final SimpleFloatProperty frequency;
+    private final SimpleIntegerProperty frequency;
     private final SimpleFloatProperty frequencyPercentage;
-    private final SimpleFloatProperty cumulativeFrequency;
+    private final SimpleIntegerProperty cumulativeFrequency;
     private final SimpleFloatProperty cumulativeFrequencyPercentage;
     
     public Data(String valueLabel, Float percentage){        
@@ -38,17 +40,17 @@ public class Data {
         this.cumulativeFrequencyPercentage = null;
     }
     
-    public Data(String classLimits, String trueClassLimits, Float midpoints, Float frequency, 
-            Float frequencyPercentage, Float cumulativeFrequency, Float cumulativeFrequencyPercentage) {
+    public Data(String classLimits, String trueClassLimits, Float midpoints, Integer frequency, 
+            Float frequencyPercentage, Integer cumulativeFrequency, Float cumulativeFrequencyPercentage) {
         
         this.valueLabel = null;
         this.percentage = null;
         this.classLimits = new SimpleStringProperty(classLimits);
         this.trueClassLimits = new SimpleStringProperty(trueClassLimits);
         this.midpoints = new SimpleFloatProperty(midpoints);
-        this.frequency = new SimpleFloatProperty(frequency);
+        this.frequency = new SimpleIntegerProperty(frequency);
         this.frequencyPercentage = new SimpleFloatProperty(frequencyPercentage);
-        this.cumulativeFrequency = new SimpleFloatProperty(cumulativeFrequency);
+        this.cumulativeFrequency = new SimpleIntegerProperty(cumulativeFrequency);
         this.cumulativeFrequencyPercentage = new SimpleFloatProperty(cumulativeFrequencyPercentage);
     }
     
@@ -69,7 +71,8 @@ public class Data {
     }
     
     public float getPercentage(){
-        return percentage.get();
+        DecimalFormat percentage = new DecimalFormat("#.00");
+        return Float.parseFloat(percentage.format(this.percentage.get()));
     }        
     
     public String getClassLimits() {
@@ -84,7 +87,7 @@ public class Data {
         return midpoints.get();
     }
     
-    public float getFrequency(){
+    public int getFrequency(){
         return frequency.get();
     }
     
@@ -92,7 +95,7 @@ public class Data {
         return frequencyPercentage.get();
     }
     
-    public float getCumulativeFrequency() {
+    public int getCumulativeFrequency() {
         return cumulativeFrequency.get();
     }
     

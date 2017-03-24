@@ -8,14 +8,15 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="secondlab.MainController">
    <children>
-      <TableView fx:id="tableView" layoutX="35.0" layoutY="21.0" prefHeight="319.0" prefWidth="517.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="21.0">
+      <TableView fx:id="summaryTableView" layoutX="35.0" layoutY="38.0" prefHeight="302.0" prefWidth="517.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="38.0">
         <columns>
           <TableColumn fx:id="valueLabel" prefWidth="258.0" text="Value Labels" />
-          <TableColumn fx:id="percentage" minWidth="0.0" prefWidth="258.0" text="Percentages" />
+          <TableColumn fx:id="percentage" minWidth="0.0" prefWidth="257.0" text="Percentages" />
         </columns>
       </TableView>
-      <Button fx:id="proceed4" layoutX="159.0" layoutY="367.0" mnemonicParsing="false" text="Generate Pie Chart" />
-      <Button fx:id="back3" layoutX="297.0" layoutY="367.0" mnemonicParsing="false" text="Back to Main Menu" />
+      <Button fx:id="proceed4a" layoutX="159.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleInputAction4" text="Generate Pie Chart" />
+      <Button fx:id="back3a" layoutX="297.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleBackAction3" text="Back to Main Menu" />
       <Label layoutX="400.0" layoutY="340.0" prefHeight="17.0" prefWidth="75.0" text="total = 100%" textAlignment="RIGHT" />
+      <Label fx:id="summaryTableLabel" alignment="CENTER" layoutX="34.0" layoutY="6.0" prefHeight="25.0" prefWidth="517.0" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>
