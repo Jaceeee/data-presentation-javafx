@@ -260,9 +260,9 @@ public class MainController implements Initializable {
                 trueClassLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String>("TrueClassLimits"));
                 midpoints.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("Midpoints"));
                 frequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("Frequency"));
-                frequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("FrequencyPercentages"));
+                frequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("FrequencyPercentage"));
                 cumulativeFrequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("CumulativeFrequency"));
-                cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("CumulativeFrequencyPercentages"));
+                cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("CumulativeFrequencyPercentage"));
                 
                 frequencyDistributionTableView.setItems(tableList);
                 frequencyDistributionTableView.setVisible(true);
@@ -282,11 +282,15 @@ public class MainController implements Initializable {
     
     @FXML
     public void numericSelected() {
+        if(GlobalContext.categoricalChoice)
+            GlobalContext.setCategorical();
         GlobalContext.setNumeric();
     }
     
     @FXML
     public void categoricalSelected() {
+        if(GlobalContext.numericChoice)
+            GlobalContext.setNumeric();
         GlobalContext.setCategorical();
     }
 }

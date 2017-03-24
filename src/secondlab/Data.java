@@ -92,7 +92,9 @@ public class Data {
     }
     
     public float getFrequencyPercentage() {
-        return frequencyPercentage.get();
+        DecimalFormat percentage = new DecimalFormat("#.00");
+//        return Float.parseFloat(percentage.format(this.percentage.get()));
+        return Float.parseFloat(percentage.format(frequencyPercentage.get()));
     }
     
     public int getCumulativeFrequency() {
@@ -100,6 +102,7 @@ public class Data {
     }
     
     public float getCumulativeFrequencyPercentage() {
-        return cumulativeFrequencyPercentage.get();
+        DecimalFormat percentage = new DecimalFormat("#.00");
+        return Float.parseFloat(percentage.format(cumulativeFrequencyPercentage.get()));
     }
 }

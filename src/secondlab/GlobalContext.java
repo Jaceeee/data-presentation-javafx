@@ -59,7 +59,7 @@ public class GlobalContext {
         } else {
             return true;
         }
-    }        
+    }
     
 //    removes duplicates
     public static String[] removeDuplicates() {
@@ -140,7 +140,7 @@ public class GlobalContext {
     }
     
     public static int getNumOfClasses(){
-        return (int)Math.floor((3.322*(Math.log10(n)) + 1));
+        return (int)Math.ceil((3.322*(Math.log10(n)) + 1));
     }
     
     public static float getMinimum(){
@@ -165,15 +165,15 @@ public class GlobalContext {
     }
     
     public static float getLowerBound(int i) {
-        return (i != 0) ? getMinimum() + (i * getClassWidth()) + 1 : getMinimum();
+        return (i != 0) ? getMinimum() + (i * getClassWidth()) : getMinimum();
     }
     
     public static float getUpperBound(int i){
-        return (i != getNumOfClasses() - 1) ? (float) (getLowerBound(i) + Math.ceil( getClassWidth())) : getMaximum();
+        return (float) (getLowerBound(i) + (getClassWidth()) - 1);
     }
     
     public static float getClassWidth() {
-        return (float) Math.ceil(getRange() / getNumOfClasses());
+        return (float) Math.round(getRange() / getNumOfClasses());
     }
     
     public static float getRange(){
@@ -218,8 +218,8 @@ public class GlobalContext {
         return frequency;
     }
     
-    public static float getFrequencyPercentage(int frequency) {
-        return frequency / n;
+    public static float getFrequencyPercentage(int frequency) {        
+        return ((float)frequency / (float)n);
     }
     
     public static int getCumulativeFrequency(int i) {
@@ -230,8 +230,8 @@ public class GlobalContext {
         }                
     }
     
-    public static float getCumulativeFrequencyPercentage(int i) {
-        return getCumulativeFrequency(i)/n;
+    public static float getCumulativeFrequencyPercentage(int i) {        
+        return ((float)getCumulativeFrequency(i)/(float)n);
     }
     
     public static String combineNumericData(int i) {
@@ -245,6 +245,7 @@ public class GlobalContext {
         comb += String.format("%d", getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) + ":";
         // percentage
         comb += String.format("%.1f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i)))) + ":";
+        System.out.println(getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))));
         // cumulative frequency
         comb += String.format("%d", getCumulativeFrequency(i)) + ":";
         // cumulative frequency percentage
