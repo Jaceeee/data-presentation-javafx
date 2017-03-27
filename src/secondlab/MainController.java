@@ -25,8 +25,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -91,6 +95,12 @@ public class MainController implements Initializable {
     @FXML private Label pieChartLabel;
     @FXML private Button proceed5a;
     @FXML private Button backToMainMenu;
+    
+    // Histogram
+    private XYChart.Series series1;
+    @FXML private BarChart histogram;
+    @FXML private Label histChartLabel;
+    @FXML private Button proceed5b;
         
      // Histogram
     private XYChart.Series series1;
@@ -141,7 +151,6 @@ public class MainController implements Initializable {
         } else {
             root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));            
         }                
-        
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
@@ -163,6 +172,8 @@ public class MainController implements Initializable {
         main.show();        
         GlobalContext.f3 = false;
     }
+    
+    
         
     @FXML
     private void handleEnterInputAction(ActionEvent event) throws IOException {
@@ -227,8 +238,15 @@ public class MainController implements Initializable {
         
         if(event.getSource() == backToMainMenu) {
             main = (Stage) backToMainMenu.getScene().getWindow();
+<<<<<<< HEAD
         } else {
             main = (Stage) back3b.getScene().getWindow();        
+=======
+        else if(event.getSource() == back3a){
+            main = (Stage) back3a.getScene().getWindow();
+        } else {
+            main = (Stage) back3b.getScene().getWindow();
+>>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
         }
         
         root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
@@ -245,10 +263,16 @@ public class MainController implements Initializable {
         if(GlobalContext.categoricalChoice){
             main = (Stage) proceed5a.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));
+<<<<<<< HEAD
         } else {
             main = (Stage) proceed5b.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
         }
+=======
+        else
+            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
+        
+>>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
@@ -298,35 +322,55 @@ public class MainController implements Initializable {
                 pieChart.setData(tempList);
                 pieChartLabel.setText(GlobalContext.title);
             }
+<<<<<<< HEAD
             else{                
+=======
+            else{
+                //histogram = new BarChart<>(new CategoryAxis(),new NumberAxis());
+>>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
                 
                 histogram.setCategoryGap(0);
                 histogram.setBarGap(0);
                 series1 = new XYChart.Series();
                 series1.setName(GlobalContext.title);
+<<<<<<< HEAD
                 ObservableList<XYChart.Data> tempList = FXCollections.observableArrayList();                
                 for(secondlab.Data d : GlobalContext.numericData) {
                    tempList.add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));                    
                 }            
                 series1.setData(tempList);                
+=======
+                
+                ObservableList<XYChart.Data> tempList = FXCollections.observableArrayList();
+                //FXCollections.observableArrayList();
+                for(secondlab.Data d : GlobalContext.numericData) {
+                   tempList.add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));
+                    //series1.getData().add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));
+                }            
+                series1.setData(tempList);
+                //series1.getData().add(new XYChart.Data("10-20", 1));
+                //series1.getData().addAll(tempList);
+>>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
             
                 histogram.getData().addAll(series1);
                 histChartLabel.setText(GlobalContext.title); 
             }
+<<<<<<< HEAD
         }         
     }
+=======
+        } 
+        
+    }                
+>>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
     
     @FXML
     public void numericSelected() {
-        if(GlobalContext.categoricalChoice)
-            GlobalContext.setCategorical();
         GlobalContext.setNumeric();
     }
     
     @FXML
     public void categoricalSelected() {
-        if(GlobalContext.numericChoice)
-            GlobalContext.setNumeric();
         GlobalContext.setCategorical();
     }
 }
