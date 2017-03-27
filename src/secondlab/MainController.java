@@ -11,6 +11,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
@@ -88,6 +92,12 @@ public class MainController implements Initializable {
     @FXML private Button proceed5a;
     @FXML private Button backToMainMenu;
         
+     // Histogram
+    private XYChart.Series series1;
+    @FXML private BarChart histogram;
+    @FXML private Button proceed5b;
+    @FXML private Label histChartLabel;
+
 //    auxiliary variables    
     ObservableList<String> itemList;
     ObservableList<secondlab.Data> tableList = FXCollections.observableArrayList();
@@ -138,11 +148,16 @@ public class MainController implements Initializable {
         GlobalContext.f2 = false;        
     }
     
-    @FXML
-    private void handleInputAction4(ActionEvent event) throws IOException {        
+    @FXML   
+    private void handleInputAction4(ActionEvent event) throws IOException {
         GlobalContext.f3 = true;
-        main = (Stage) proceed4a.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("PieChart.fxml"));
+        if(GlobalContext.categoricalChoice){
+            main = (Stage) proceed4a.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("PieChart.fxml"));
+        } else {
+            main = (Stage) proceed4b.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("HistogramChartOutput.fxml"));
+        }
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();        
@@ -210,10 +225,12 @@ public class MainController implements Initializable {
         GlobalContext.categoricalData = new secondlab.Data[0];        
         tableList = null;
         
-        if(event.getSource() == backToMainMenu)
+        if(event.getSource() == backToMainMenu) {
             main = (Stage) backToMainMenu.getScene().getWindow();
-        else
-            main = (Stage) back3a.getScene().getWindow();
+        } else {
+            main = (Stage) back3b.getScene().getWindow();        
+        }
+        
         root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
         Scene scene = new Scene(root);
         main.setScene(scene);
@@ -223,12 +240,15 @@ public class MainController implements Initializable {
     
     @FXML
     private void handleBackAction4(ActionEvent event) throws IOException {
-        GlobalContext.f2 = true;
+        GlobalContext.f2 = true;        
         
-        main = (Stage) proceed5a.getScene().getWindow();
-        if(GlobalContext.categoricalChoice)
+        if(GlobalContext.categoricalChoice){
+            main = (Stage) proceed5a.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));
-        
+        } else {
+            main = (Stage) proceed5b.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
+        }
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
@@ -267,18 +287,34 @@ public class MainController implements Initializable {
                 frequencyDistributionTableView.setItems(tableList);
                 frequencyDistributionTableView.setVisible(true);
                 frequencyDistributionTableLabel.setText(GlobalContext.title);
-                
             }
         }        
         if(GlobalContext.f3){
-            ObservableList<PieChart.Data> tempList = FXCollections.observableArrayList();
-            for(secondlab.Data d : GlobalContext.categoricalData) {
-                tempList.add(new PieChart.Data(d.getValueLabel(), d.getPercentage()));
-            }            
-            pieChart.setData(tempList);
-            pieChartLabel.setText(GlobalContext.title);
-        }
-    }                
+            if(GlobalContext.categoricalChoice){
+                ObservableList<PieChart.Data> tempList = FXCollections.observableArrayList();
+                for(secondlab.Data d : GlobalContext.categoricalData) {
+                    tempList.add(new PieChart.Data(d.getValueLabel(), d.getPercentage()));
+                }            
+                pieChart.setData(tempList);
+                pieChartLabel.setText(GlobalContext.title);
+            }
+            else{                
+                
+                histogram.setCategoryGap(0);
+                histogram.setBarGap(0);
+                series1 = new XYChart.Series();
+                series1.setName(GlobalContext.title);
+                ObservableList<XYChart.Data> tempList = FXCollections.observableArrayList();                
+                for(secondlab.Data d : GlobalContext.numericData) {
+                   tempList.add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));                    
+                }            
+                series1.setData(tempList);                
+            
+                histogram.getData().addAll(series1);
+                histChartLabel.setText(GlobalContext.title); 
+            }
+        }         
+    }
     
     @FXML
     public void numericSelected() {

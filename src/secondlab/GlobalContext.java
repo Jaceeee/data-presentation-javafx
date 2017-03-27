@@ -173,7 +173,7 @@ public class GlobalContext {
     }
     
     public static float getClassWidth() {
-        return (float) Math.round(getRange() / getNumOfClasses());
+        return (float) Math.ceil(getRange() / getNumOfClasses());
     }
     
     public static float getRange(){
@@ -244,12 +244,12 @@ public class GlobalContext {
         // frequency
         comb += String.format("%d", getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) + ":";
         // percentage
-        comb += String.format("%.1f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i)))) + ":";
+        comb += String.format("%.2f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) * 100) + ":";
         System.out.println(getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))));
         // cumulative frequency
         comb += String.format("%d", getCumulativeFrequency(i)) + ":";
         // cumulative frequency percentage
-        comb += String.format("%.1f", getCumulativeFrequencyPercentage(i));
+        comb += String.format("%.2f", getCumulativeFrequencyPercentage(i));
         
         return comb;
     }

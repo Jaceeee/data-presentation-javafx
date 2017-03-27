@@ -19,7 +19,7 @@
             <TableColumn fx:id="cumulativeFrequencyPercentage" prefWidth="76.0" text="&lt;CF%" />
         </columns>
       </TableView>
-      <Button layoutX="212.0" layoutY="400.0" mnemonicParsing="false" text="Generate Histogram" />
+      <Button fx:id="proceed4b" layoutX="212.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleInputAction4" text="Generate Histogram" />
       <Button fx:id="back3a" layoutX="346.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleBackAction3" text="Back to Main Menu" />
       <Label fx:id="frequencyDistributionTableLabel" alignment="CENTER" layoutX="20.0" layoutY="21.0" prefHeight="17.0" prefWidth="630.0" />
    </children>
