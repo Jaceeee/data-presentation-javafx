@@ -77,36 +77,27 @@ public class MainController implements Initializable {
     @FXML private TableColumn<secondlab.Data, Float> percentage;
     
 //    Frequency Distribution    
+    @FXML private Button distributionTableSwitch;
     @FXML private TableColumn<secondlab.Data, String> classLimits;
     @FXML private TableColumn<secondlab.Data, String> trueClassLimits;
-    @FXML private TableColumn<secondlab.Data, Float> midpoints;
+    @FXML private TableColumn<secondlab.Data, String> midpoints;
     @FXML private TableColumn<secondlab.Data, Integer> frequency;
     @FXML private TableColumn<secondlab.Data, Float> frequencyPercentage;
     @FXML private TableColumn<secondlab.Data, Integer> cumulativeFrequency;
     @FXML private TableColumn<secondlab.Data, Float> cumulativeFrequencyPercentage;
         
-    @FXML private Button proceed4a;
-    @FXML private Button proceed4b;
-    @FXML private Button back3a;
-    @FXML private Button back3b;
+    @FXML private Button proceed4;
+    @FXML private Button back3;
+    @FXML private Label sampleSizeLabel;
     
     //    Pie Chart
     @FXML private PieChart pieChart;
-    @FXML private Label pieChartLabel;
-    @FXML private Button proceed5a;
-    @FXML private Button backToMainMenu;
+    @FXML private Label pieChartLabel;        
     
     // Histogram
     private XYChart.Series series1;
     @FXML private BarChart histogram;
-    @FXML private Label histChartLabel;
-    @FXML private Button proceed5b;
-        
-     // Histogram
-    private XYChart.Series series1;
-    @FXML private BarChart histogram;
-    @FXML private Button proceed5b;
-    @FXML private Label histChartLabel;
+    @FXML private Label histChartLabel;                 
 
 //    auxiliary variables    
     ObservableList<String> itemList;
@@ -151,6 +142,7 @@ public class MainController implements Initializable {
         } else {
             root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));            
         }                
+        
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
@@ -161,19 +153,17 @@ public class MainController implements Initializable {
     private void handleInputAction4(ActionEvent event) throws IOException {
         GlobalContext.f3 = true;
         if(GlobalContext.categoricalChoice){
-            main = (Stage) proceed4a.getScene().getWindow();
+            main = (Stage) proceed4.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("PieChart.fxml"));
         } else {
-            main = (Stage) proceed4b.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("HistogramChartOutput.fxml"));
+            main = (Stage) proceed4.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("Histogram.fxml"));
         }
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();        
         GlobalContext.f3 = false;
     }
-    
-    
         
     @FXML
     private void handleEnterInputAction(ActionEvent event) throws IOException {
@@ -200,6 +190,23 @@ public class MainController implements Initializable {
         }
     }
     
+    @FXML
+    private void handleChangeInTableInput(ActionEvent event) {        
+        System.out.println("Hello, it's in.");
+        GlobalContext.openEndedSetting = (GlobalContext.openEndedSetting) ? false : true;
+        GlobalContext.setData(GlobalContext.openEndedSetting);                        
+        setFrequencyDistributionTable();
+        if(GlobalContext.openEndedSetting){
+            distributionTableSwitch.setText("Collapse table");    
+        } else {
+            distributionTableSwitch.setText("Show open ended distribution");
+        }
+        
+        frequencyDistributionTableView.setItems(tableList);
+        frequencyDistributionTableView.setVisible(true);
+        frequencyDistributionTableLabel.setText(GlobalContext.title);
+    }
+            
     @FXML
     public void enterListener(KeyEvent e){
         if(e.getCode() == KeyCode.ENTER){
@@ -235,49 +242,13 @@ public class MainController implements Initializable {
     private void handleBackAction3(ActionEvent event) throws IOException {
         GlobalContext.categoricalData = new secondlab.Data[0];        
         tableList = null;
-        
-        if(event.getSource() == backToMainMenu) {
-            main = (Stage) backToMainMenu.getScene().getWindow();
-<<<<<<< HEAD
-        } else {
-            main = (Stage) back3b.getScene().getWindow();        
-=======
-        else if(event.getSource() == back3a){
-            main = (Stage) back3a.getScene().getWindow();
-        } else {
-            main = (Stage) back3b.getScene().getWindow();
->>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
-        }
-        
+        main = (Stage) back3.getScene().getWindow();                        
         root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
         GlobalContext.initialize();
-    }
-    
-    @FXML
-    private void handleBackAction4(ActionEvent event) throws IOException {
-        GlobalContext.f2 = true;        
-        
-        if(GlobalContext.categoricalChoice){
-            main = (Stage) proceed5a.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("SummaryTableOutput.fxml"));
-<<<<<<< HEAD
-        } else {
-            main = (Stage) proceed5b.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
-        }
-=======
-        else
-            root = FXMLLoader.load(getClass().getResource("FrequencyDistributionTableOutput.fxml"));
-        
->>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
-        Scene scene = new Scene(root);
-        main.setScene(scene);
-        main.show();
-        GlobalContext.f2 = false;
-    }
+    }        
     
     @FXML
     private void exit(ActionEvent event) {
@@ -287,26 +258,18 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {        
         if(GlobalContext.f2) {
-            GlobalContext.setData();            
+            GlobalContext.setData(GlobalContext.openEndedSetting);            
             
-            if(GlobalContext.categoricalChoice){                
-                tableList = FXCollections.observableArrayList(GlobalContext.categoricalData);
-                valueLabel.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ValueLabel"));
-                percentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float> ("Percentage"));
-
+            if(GlobalContext.categoricalChoice) {
+                setSummaryTable();
+                
                 summaryTableView.setItems(tableList);
                 summaryTableView.setVisible(true);                
                 summaryTableLabel.setText(GlobalContext.title);            
             }
             else if(GlobalContext.numericChoice) {
-                tableList = FXCollections.observableArrayList(GlobalContext.numericData);
-                classLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ClassLimits"));
-                trueClassLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String>("TrueClassLimits"));
-                midpoints.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("Midpoints"));
-                frequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("Frequency"));
-                frequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("FrequencyPercentage"));
-                cumulativeFrequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("CumulativeFrequency"));
-                cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("CumulativeFrequencyPercentage"));
+                sampleSizeLabel.setText("n = " + GlobalContext.n);
+                setFrequencyDistributionTable();                
                 
                 frequencyDistributionTableView.setItems(tableList);
                 frequencyDistributionTableView.setVisible(true);
@@ -314,63 +277,66 @@ public class MainController implements Initializable {
             }
         }        
         if(GlobalContext.f3){
-            if(GlobalContext.categoricalChoice){
+            if(GlobalContext.categoricalChoice) {
                 ObservableList<PieChart.Data> tempList = FXCollections.observableArrayList();
                 for(secondlab.Data d : GlobalContext.categoricalData) {
                     tempList.add(new PieChart.Data(d.getValueLabel(), d.getPercentage()));
                 }            
                 pieChart.setData(tempList);
                 pieChartLabel.setText(GlobalContext.title);
-            }
-<<<<<<< HEAD
-            else{                
-=======
-            else{
-                //histogram = new BarChart<>(new CategoryAxis(),new NumberAxis());
->>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
-                
+            } else{                                           
                 histogram.setCategoryGap(0);
                 histogram.setBarGap(0);
                 series1 = new XYChart.Series();
                 series1.setName(GlobalContext.title);
-<<<<<<< HEAD
+
                 ObservableList<XYChart.Data> tempList = FXCollections.observableArrayList();                
                 for(secondlab.Data d : GlobalContext.numericData) {
-                   tempList.add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));                    
+                   tempList.add(new XYChart.Data(d.getMidpoints(), d.getFrequency()));
                 }            
                 series1.setData(tempList);                
-=======
-                
-                ObservableList<XYChart.Data> tempList = FXCollections.observableArrayList();
-                //FXCollections.observableArrayList();
+                                               
                 for(secondlab.Data d : GlobalContext.numericData) {
-                   tempList.add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));
-                    //series1.getData().add(new XYChart.Data(Float.toString(d.getMidpoints()), d.getFrequency()));
+                    tempList.add(new XYChart.Data(d.getMidpoints(), d.getFrequency()));
                 }            
-                series1.setData(tempList);
-                //series1.getData().add(new XYChart.Data("10-20", 1));
-                //series1.getData().addAll(tempList);
->>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
+                series1.setData(tempList);                
             
                 histogram.getData().addAll(series1);
                 histChartLabel.setText(GlobalContext.title); 
             }
-<<<<<<< HEAD
         }         
     }
-=======
-        } 
-        
-    }                
->>>>>>> 756f5ade6f9fcfb2e8bb358f9b50fc33a6517ce7
     
     @FXML
     public void numericSelected() {
+        if(GlobalContext.categoricalChoice) {
+            GlobalContext.categoricalChoice = false;
+        }
         GlobalContext.setNumeric();
     }
     
     @FXML
     public void categoricalSelected() {
+        if(GlobalContext.numericChoice) {
+            GlobalContext.numericChoice = false;
+        }
         GlobalContext.setCategorical();
+    }
+    
+    public void setFrequencyDistributionTable() {
+        tableList = FXCollections.observableArrayList(GlobalContext.numericData);
+        classLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ClassLimits"));
+        trueClassLimits.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String>("TrueClassLimits"));        
+        midpoints.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String>("Midpoints"));
+        frequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("Frequency"));
+        frequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("FrequencyPercentage"));
+        cumulativeFrequency.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Integer>("CumulativeFrequency"));
+        cumulativeFrequencyPercentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float>("CumulativeFrequencyPercentage"));
+    }
+    
+    public void setSummaryTable() {
+        tableList = FXCollections.observableArrayList(GlobalContext.categoricalData);
+        valueLabel.setCellValueFactory(new PropertyValueFactory<secondlab.Data, String> ("ValueLabel"));
+        percentage.setCellValueFactory(new PropertyValueFactory<secondlab.Data, Float> ("Percentage"));
     }
 }

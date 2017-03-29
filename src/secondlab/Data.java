@@ -22,7 +22,7 @@ public class Data {
 //    Frequency Distribution Table
     private final SimpleStringProperty classLimits;
     private final SimpleStringProperty trueClassLimits;
-    private final SimpleFloatProperty midpoints;
+    private final SimpleStringProperty midpoints;
     private final SimpleIntegerProperty frequency;
     private final SimpleFloatProperty frequencyPercentage;
     private final SimpleIntegerProperty cumulativeFrequency;
@@ -40,14 +40,14 @@ public class Data {
         this.cumulativeFrequencyPercentage = null;
     }
     
-    public Data(String classLimits, String trueClassLimits, Float midpoints, Integer frequency, 
+    public Data(String classLimits, String trueClassLimits, String midpoints, Integer frequency, 
             Float frequencyPercentage, Integer cumulativeFrequency, Float cumulativeFrequencyPercentage) {
         
         this.valueLabel = null;
         this.percentage = null;
         this.classLimits = new SimpleStringProperty(classLimits);
         this.trueClassLimits = new SimpleStringProperty(trueClassLimits);
-        this.midpoints = new SimpleFloatProperty(midpoints);
+        this.midpoints = new SimpleStringProperty(midpoints);
         this.frequency = new SimpleIntegerProperty(frequency);
         this.frequencyPercentage = new SimpleFloatProperty(frequencyPercentage);
         this.cumulativeFrequency = new SimpleIntegerProperty(cumulativeFrequency);
@@ -83,7 +83,7 @@ public class Data {
         return trueClassLimits.get();
     }
     
-    public float getMidpoints() {
+    public String getMidpoints() {
         return midpoints.get();
     }
     
@@ -104,5 +104,5 @@ public class Data {
     public float getCumulativeFrequencyPercentage() {
         DecimalFormat percentage = new DecimalFormat("#.00");
         return Float.parseFloat(percentage.format(cumulativeFrequencyPercentage.get()));
-    }
+    }        
 }

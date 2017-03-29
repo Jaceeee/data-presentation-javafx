@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="secondlab.MainController">
    <children>
@@ -14,9 +15,12 @@
           <TableColumn fx:id="percentage" minWidth="0.0" prefWidth="257.0" text="Percentages" />
         </columns>
       </TableView>
-      <Button fx:id="proceed4a" layoutX="159.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleInputAction4" text="Generate Pie Chart" />
-      <Button fx:id="back3a" layoutX="297.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleBackAction3" text="Back to Main Menu" />
-      <Label layoutX="400.0" layoutY="340.0" prefHeight="17.0" prefWidth="75.0" text="total = 100%" textAlignment="RIGHT" />
+      <Button fx:id="proceed4" layoutX="159.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleInputAction4" text="Generate Pie Chart" />
+      <Button fx:id="back3" layoutX="297.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleBackAction3" text="Back to Main Menu" />
+      <Label layoutX="400.0" layoutY="340.0" prefHeight="17.0" prefWidth="75.0" text="total = 100%" textAlignment="RIGHT">
+         <font>
+            <Font name="Arial Black" size="10.0" />
+         </font></Label>
       <Label fx:id="summaryTableLabel" alignment="CENTER" layoutX="34.0" layoutY="6.0" prefHeight="25.0" prefWidth="517.0" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

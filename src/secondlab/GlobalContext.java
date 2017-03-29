@@ -26,6 +26,7 @@ public class GlobalContext {
     public static Data[] categoricalData;
     public static Data[] numericData;
     public static boolean f1,f2,f3,f4;
+    public static boolean openEndedSetting;
     
     public GlobalContext getInstance(){
         return gc;
@@ -37,11 +38,15 @@ public class GlobalContext {
         n = 0;
         inputType = 0;
         title = "";
+        categoricalData = new Data[0];
+        numericData = new Data[0];
         categoricalArray = new String[0];
         numericArray = new float[0];
         counter = 0;
         f2 = f3 = f4 = false;
         f1 = true;
+        errorMessage = null;
+        openEndedSetting = false;
     }        
         
     
@@ -106,7 +111,7 @@ public class GlobalContext {
        return a;
    }
    
-    public static void setData(){
+    public static void setData(boolean openEndedSetting){
         if(categoricalChoice){
             String[] valueLabels = removeDuplicates();
             Float[] percentages = percentageComp();
@@ -128,9 +133,16 @@ public class GlobalContext {
             
             for(int i = 0; i<getNumOfClasses(); i++){
                 String[] dataPiece = combineNumericData(i).split(":");
+                if(openEndedSetting && (i == 0 || i == getNumOfClasses() - 1)) { 
+                    dataPiece[0] = (i == 0) ? returnLowerOpenEndedData(dataPiece[0])
+                            : returnUpperOpenEndedData(dataPiece[0]);
+                    dataPiece[1] = "---";
+                    dataPiece[2] = "---";
+                }
+                
                 numericData[i] = new Data(dataPiece[0],
                                           dataPiece[1],
-                                          Float.parseFloat(dataPiece[2]),
+                                          dataPiece[2],
                                           Integer.parseInt(dataPiece[3]),
                                           Float.parseFloat(dataPiece[4]),
                                           Integer.parseInt(dataPiece[5]),
@@ -249,8 +261,18 @@ public class GlobalContext {
         // cumulative frequency
         comb += String.format("%d", getCumulativeFrequency(i)) + ":";
         // cumulative frequency percentage
-        comb += String.format("%.2f", getCumulativeFrequencyPercentage(i));
+        comb += String.format("%.2f", getCumulativeFrequencyPercentage(i) * 100);
         
         return comb;
+    }
+    
+    public static String returnLowerOpenEndedData(String i){                
+        String[] a = i.split("-");
+        return a[1] + " and below";
+    }
+    
+    public static String returnUpperOpenEndedData(String i) {        
+        String[] a = i.split("-");
+        return a[0] + " and above";
     }
 }

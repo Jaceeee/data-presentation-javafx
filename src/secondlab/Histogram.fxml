@@ -28,7 +28,7 @@
             </Label>
          </children>
       </Pane>
-      <Button fx:id="backToMainMenu" layoutX="183.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction3" prefHeight="25.0" prefWidth="100.0" text="Main Menu" />
-      <Button fx:id="proceed5b" layoutX="304.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction4" text="Back to Table" />
+      <Button fx:id="back3" layoutX="183.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction3" prefHeight="25.0" prefWidth="100.0" text="Main Menu" />
+      <Button fx:id="proceed3" layoutX="304.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleInputAction3" text="Back to Table" />
    </children>
 </AnchorPane>
