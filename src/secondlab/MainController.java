@@ -65,6 +65,7 @@ public class MainController implements Initializable {
     @FXML private Button back2;
     @FXML private TextField dataField;    
     @FXML private ListView inputDisplay;
+    @FXML private ListView numbers;
     
 //    Table template
     @FXML private Label summaryTableLabel;
@@ -112,6 +113,8 @@ public class MainController implements Initializable {
             main.setScene(scene);
             main.show();
             GlobalContext.f1 = false;
+        } else{
+            errorMessage1.setText("Must select an option before proceeding");
         }
     }
     
@@ -122,12 +125,13 @@ public class MainController implements Initializable {
             GlobalContext.title = titleField.getText();
             GlobalContext.categoricalArray = new String[GlobalContext.n];
             GlobalContext.counter = 0;
+            GlobalContext.numberArray = new Integer[GlobalContext.n];
             
             main = (Stage) proceed2.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("SecondaryInput.fxml"));
             Scene scene = new Scene(root);
             main.setScene(scene);
-            main.show();            
+            main.show();
         } else {
             errorMessage1.setText("Wrong input detected");
         }
@@ -178,21 +182,26 @@ public class MainController implements Initializable {
         }
         
         if(GlobalContext.f1) {
-            GlobalContext.categoricalArray[GlobalContext.counter++] = text;     
+            GlobalContext.categoricalArray[GlobalContext.counter] = text;     
             itemList = FXCollections.observableArrayList(GlobalContext.categoricalArray);
             inputDisplay.setItems(itemList);
+            
+            GlobalContext.numberArray[GlobalContext.counter++] = new Integer(GlobalContext.counter);
+            ObservableList<Integer> tmpList = FXCollections.observableArrayList(GlobalContext.numberArray);
+            numbers.setItems(tmpList);
             
             if(GlobalContext.counter == GlobalContext.n) {
                 dataField.setEditable(false);
                 enter.setDisable(true);
             }
             dataField.setText("");
+        } else {
+            errorMessage1.setText("Invalid input");
         }
     }
     
     @FXML
     private void handleChangeInTableInput(ActionEvent event) {        
-        System.out.println("Hello, it's in.");
         GlobalContext.openEndedSetting = (GlobalContext.openEndedSetting) ? false : true;
         GlobalContext.setData(GlobalContext.openEndedSetting);                        
         setFrequencyDistributionTable();

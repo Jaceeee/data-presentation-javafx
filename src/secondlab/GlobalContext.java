@@ -21,6 +21,7 @@ public class GlobalContext {
     public static String title;
     public static String[] categoricalArray;
     public static float[] numericArray;
+    public static Integer[] numberArray;
     public static int counter = 0;
     public static String errorMessage = "";
     public static Data[] categoricalData;

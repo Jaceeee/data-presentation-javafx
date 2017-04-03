@@ -21,9 +21,9 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <Label fx:id="histChartLabel" alignment="CENTER" layoutX="247.0" layoutY="13.0" prefHeight="25.0" prefWidth="77.0" text="Histogram" textAlignment="CENTER">
+            <Label fx:id="histChartLabel" alignment="CENTER" layoutX="243.0" layoutY="14.0" prefHeight="44.0" prefWidth="135.0" text="Histogram" textAlignment="CENTER">
                <font>
-                  <Font name="Berlin Sans FB" size="12.0" />
+                  <Font name="Berlin Sans FB" size="20.0" />
                </font>
             </Label>
          </children>

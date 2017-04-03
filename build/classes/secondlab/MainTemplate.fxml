@@ -21,5 +21,6 @@
             <ToggleGroup fx:id="toggle" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="numeric" layoutX="195.0" layoutY="177.0" mnemonicParsing="false" onAction="#numericSelected" text="Numeric" toggleGroup="$toggle" />
+      <Label fx:id="errorMessage1" layoutX="164.0" layoutY="218.0" prefHeight="17.0" prefWidth="152.0" textFill="RED" />
     </children>
 </AnchorPane>
