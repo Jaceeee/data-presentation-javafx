@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="secondlab.MainController">
    <children>
@@ -14,14 +13,10 @@
       <Button fx:id="enter" layoutX="351.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleEnterInputAction" prefHeight="25.0" prefWidth="67.0" text="Enter" />
       <Button fx:id="proceed3" layoutX="425.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleInputAction3" prefHeight="37.0" prefWidth="67.0" text="Proceed" />
       <Button fx:id="back2" layoutX="425.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleBackAction2" prefHeight="37.0" prefWidth="67.0" text="Back" />
-      <HBox layoutX="124.0" layoutY="169.0" prefHeight="183.0" prefWidth="261.0">
-         <children>
-            <ListView fx:id="numbers" prefHeight="183.0" prefWidth="139.0" />
-            <ListView fx:id="inputDisplay" prefHeight="183.0" prefWidth="135.0" />
-         </children>
-      </HBox>
-      <Label fx:id="errorMessage1" layoutX="128.0" layoutY="360.0" prefHeight="17.0" prefWidth="261.0" textFill="RED" />
-      <Label alignment="CENTER" layoutX="128.0" layoutY="148.0" prefHeight="17.0" prefWidth="115.0" text="Input Number" />
+      <Label fx:id="errorMessage1" layoutX="145.0" layoutY="359.0" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+      <Label alignment="CENTER" layoutX="137.0" layoutY="148.0" prefHeight="17.0" prefWidth="115.0" text="Input Number" />
       <Label alignment="CENTER" layoutX="264.0" layoutY="148.0" prefHeight="17.0" prefWidth="115.0" text="Input" />
+      <ListView fx:id="numbers" layoutX="138.0" layoutY="173.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="127.0" />
+      <ListView fx:id="inputDisplay" layoutX="265.0" layoutY="173.0" prefHeight="160.0" prefWidth="118.0" />
    </children>
 </AnchorPane>

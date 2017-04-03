@@ -23,7 +23,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -32,11 +34,14 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -112,7 +117,7 @@ public class MainController implements Initializable {
             Scene scene = new Scene(root);
             main.setScene(scene);
             main.show();
-            GlobalContext.f1 = false;
+            GlobalContext.f1 = true;
         } else{
             errorMessage1.setText("Must select an option before proceeding");
         }
@@ -131,7 +136,8 @@ public class MainController implements Initializable {
             root = FXMLLoader.load(getClass().getResource("SecondaryInput.fxml"));
             Scene scene = new Scene(root);
             main.setScene(scene);
-            main.show();
+            main.show();                                    
+            GlobalContext.f1 = false;
         } else {
             errorMessage1.setText("Wrong input detected");
         }
@@ -195,6 +201,18 @@ public class MainController implements Initializable {
                 enter.setDisable(true);
             }
             dataField.setText("");
+            errorMessage1.setText("");
+            
+            Node n1 = inputDisplay.lookup(".scroll-bar");
+            if (n1 instanceof ScrollBar) {
+                final ScrollBar bar1 = (ScrollBar) n1;
+                Node n2 = numbers.lookup(".scroll-bar");
+                if (n2 instanceof ScrollBar) {
+                    final ScrollBar bar2 = (ScrollBar) n2;
+                    bar1.valueProperty().bindBidirectional(bar2.valueProperty());
+                    System.out.println("asdf");
+                }
+            }
         } else {
             errorMessage1.setText("Invalid input");
         }
@@ -265,7 +283,7 @@ public class MainController implements Initializable {
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {        
+    public void initialize(URL url, ResourceBundle rb) {               
         if(GlobalContext.f2) {
             GlobalContext.setData(GlobalContext.openEndedSetting);            
             
@@ -289,9 +307,12 @@ public class MainController implements Initializable {
             if(GlobalContext.categoricalChoice) {
                 ObservableList<PieChart.Data> tempList = FXCollections.observableArrayList();
                 for(secondlab.Data d : GlobalContext.categoricalData) {
-                    tempList.add(new PieChart.Data(d.getValueLabel(), d.getPercentage()));
-                }            
+                    tempList.add(new PieChart.Data(d.getValueLabel() + "\n" + (d.getPercentage()) + "%", 
+                            d.getPercentage()));
+                }
+                
                 pieChart.setData(tempList);
+                pieChart.setLegendVisible(false);
                 pieChartLabel.setText(GlobalContext.title);
             } else{                                           
                 histogram.setCategoryGap(0);
@@ -311,6 +332,7 @@ public class MainController implements Initializable {
                 series1.setData(tempList);                
             
                 histogram.getData().addAll(series1);
+                histogram.setLegendVisible(false);
                 histChartLabel.setText(GlobalContext.title); 
             }
         }         

@@ -119,7 +119,7 @@ public class GlobalContext {
             categoricalData = new Data[valueLabels.length];
                         
             for(int i = 0; i < categoricalData.length; i++) {
-                categoricalData[i] = new Data(valueLabels[i],percentages[i]*100);
+                categoricalData[i] = new Data(valueLabels[i], percentages[i]*100);
             }
         } else if(numericChoice) {
             System.out.println(getNumOfClasses());
