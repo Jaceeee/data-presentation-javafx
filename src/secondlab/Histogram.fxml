@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -23,14 +25,26 @@
             </BarChart>
             <Label fx:id="histChartLabel" alignment="CENTER" layoutX="243.0" layoutY="14.0" prefHeight="44.0" prefWidth="135.0" text="Histogram" textAlignment="CENTER">
                <font>
-                  <Font name="Berlin Sans FB" size="20.0" />
+                  <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
             <Label layoutX="2.0" layoutY="178.0" prefHeight="17.0" prefWidth="57.0" text="Frequency" />
             <Label layoutX="269.0" layoutY="334.0" prefHeight="17.0" prefWidth="57.0" text="Midpoints" />
          </children>
       </Pane>
-      <Button fx:id="back3" layoutX="183.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction3" prefHeight="25.0" prefWidth="100.0" text="Main Menu" />
-      <Button fx:id="proceed3" layoutX="304.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleInputAction3" text="Back to Table" />
+      <Button fx:id="back3" layoutX="183.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction3" prefHeight="25.0" prefWidth="100.0" text="Main Menu">
+         <effect>
+            <ColorAdjust hue="-0.79" saturation="0.39" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="proceed3" layoutX="304.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleInputAction3" text="Back to Table">
+         <effect>
+            <ColorAdjust hue="-0.79" saturation="0.39" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
    </children>
 </AnchorPane>

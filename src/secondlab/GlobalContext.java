@@ -105,8 +105,7 @@ public class GlobalContext {
                    counter++;
                }
            }
-           a[i] = new Float(((float)counter/(float)n));
-           System.out.println(a[i]);
+           a[i] = new Float(((float)counter/(float)n));           
        }
        
        return a;
@@ -121,8 +120,7 @@ public class GlobalContext {
             for(int i = 0; i < categoricalData.length; i++) {
                 categoricalData[i] = new Data(valueLabels[i], percentages[i]*100);
             }
-        } else if(numericChoice) {
-            System.out.println(getNumOfClasses());
+        } else if(numericChoice) {            
             numericArray = new float[n];
             
 //            populating the numeric array
@@ -199,18 +197,19 @@ public class GlobalContext {
     
     public static float getSmallestPlaceValue(float value) {        
         float d = 1;
-        boolean t = (value % d) == 0;
+        boolean t = ((value / d) % 1) == 0;
         
         while(!t) {
             d *= 0.1;
-            t = (value % d) == 0;
+            t = ((value / d) % 1) == 0;
         }
-        
+                      
         return (float) (d * 0.1);
     }
     
     public static float getTrueLowerClassLimit(int i) {
         float lowerBound = getLowerBound(i);
+        
         return lowerBound - (getSmallestPlaceValue(lowerBound) * 5);
     }
     
@@ -249,16 +248,15 @@ public class GlobalContext {
     
     public static String combineNumericData(int i) {
         // class limits
-        String comb = String.format("%.1f-%.1f", getLowerBound(i), getUpperBound(i)) + ":";
+        String comb = String.format("%.2f-%.2f", getLowerBound(i), getUpperBound(i)) + ":";
         // true class limits
-        comb += String.format("%.1f-%.1f", getTrueLowerClassLimit(i), getTrueUpperClassLimit(i)) + ":";
+        comb += String.format("%.4f-%.4f", getTrueLowerClassLimit(i), getTrueUpperClassLimit(i)) + ":";
         // midpoint
         comb += String.format("%.1f", getMidpoint(i)) + ":";
         // frequency
         comb += String.format("%d", getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) + ":";
         // percentage
-        comb += String.format("%.2f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) * 100) + ":";
-        System.out.println(getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))));
+        comb += String.format("%.2f", getFrequencyPercentage(getFrequency(getTrueLowerClassLimit(i),getTrueUpperClassLimit(i))) * 100) + ":";        
         // cumulative frequency
         comb += String.format("%d", getCumulativeFrequency(i)) + ":";
         // cumulative frequency percentage

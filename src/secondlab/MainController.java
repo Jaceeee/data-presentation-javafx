@@ -209,8 +209,7 @@ public class MainController implements Initializable {
                 Node n2 = numbers.lookup(".scroll-bar");
                 if (n2 instanceof ScrollBar) {
                     final ScrollBar bar2 = (ScrollBar) n2;
-                    bar1.valueProperty().bindBidirectional(bar2.valueProperty());
-                    System.out.println("asdf");
+                    bar1.valueProperty().bindBidirectional(bar2.valueProperty());                    
                 }
             }
         } else {
