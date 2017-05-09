@@ -5,6 +5,8 @@
  */
 package secondlab;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -184,6 +186,7 @@ public class GlobalContext {
     }
     
     public static float getClassWidth() {
+//        TODO
         return (float) Math.ceil(getRange() / getNumOfClasses());
     }
     
@@ -273,5 +276,14 @@ public class GlobalContext {
     public static String returnUpperOpenEndedData(String i) {        
         String[] a = i.split("-");
         return a[0] + " and above";
+    }
+    
+    public static String roundUp(float i, String format){
+        DecimalFormat df = new DecimalFormat(format);
+        df.setRoundingMode(RoundingMode.CEILING);
+                
+        Double d = new Double(i);
+        return df.format(d);
+        //use ceil
     }
 }

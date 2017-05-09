@@ -15,7 +15,7 @@
    <children>
       <Pane prefHeight="341.0" prefWidth="600.0">
          <children>
-            <BarChart fx:id="histogram" layoutX="43.0" layoutY="52.0" prefHeight="303.0" prefWidth="535.0">
+            <BarChart fx:id="histogram" layoutX="43.0" layoutY="38.0" prefHeight="303.0" prefWidth="535.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -23,13 +23,19 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </BarChart>
-            <Label fx:id="histChartLabel" alignment="CENTER" layoutX="243.0" layoutY="14.0" prefHeight="44.0" prefWidth="135.0" text="Histogram" textAlignment="CENTER">
+            <Label fx:id="histChartLabel" alignment="CENTER" layoutX="243.0" layoutY="7.0" prefHeight="44.0" prefWidth="135.0" text="Histogram" textAlignment="CENTER">
                <font>
                   <Font name="Century Gothic" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="2.0" layoutY="178.0" prefHeight="17.0" prefWidth="57.0" text="Frequency" />
-            <Label layoutX="269.0" layoutY="334.0" prefHeight="17.0" prefWidth="57.0" text="Midpoints" />
+            <Label layoutX="2.0" layoutY="178.0" prefHeight="17.0" prefWidth="69.0" text="Frequency">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font></Label>
+            <Label layoutX="269.0" layoutY="334.0" prefHeight="20.0" prefWidth="109.0" text="Midpoints">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
          </children>
       </Pane>
       <Button fx:id="back3" layoutX="183.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleBackAction3" prefHeight="25.0" prefWidth="100.0" text="Main Menu">

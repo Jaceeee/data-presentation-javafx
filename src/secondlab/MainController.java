@@ -2,7 +2,11 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * 
+ * errors: non-selective open-ended 
+ * errors: purely decimal input
  */
+
 package secondlab;
 
 import java.net.URL;
@@ -57,6 +61,7 @@ public class MainController implements Initializable {
     @FXML private RadioButton categorical;
     @FXML private RadioButton numeric;
     @FXML private Label errorMessage1;
+    @FXML private Label title;
     
 //    second template
     @FXML private Button proceed2;
@@ -110,7 +115,8 @@ public class MainController implements Initializable {
     ObservableList<secondlab.Data> tableList = FXCollections.observableArrayList();
     
     @FXML
-    private void handleInputAction1(ActionEvent event) throws IOException {        
+    private void handleInputAction1(ActionEvent event) throws IOException {
+        GlobalContext.f1 = false;
         if(GlobalContext.choiceSelected()) {
             main = (Stage) proceed1.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("PrimaryInput.fxml"));
@@ -144,7 +150,8 @@ public class MainController implements Initializable {
     }
     
     @FXML 
-    private void handleInputAction3(ActionEvent event) throws IOException {        
+    private void handleInputAction3(ActionEvent event) throws IOException {
+        GlobalContext.f1 = false;
         GlobalContext.f2 = true;
         main = (Stage) proceed3.getScene().getWindow();
         if(GlobalContext.categoricalChoice) {            
@@ -243,11 +250,12 @@ public class MainController implements Initializable {
     @FXML
     private void handleBackAction1(ActionEvent event) throws IOException {
         main = (Stage) back1.getScene().getWindow();
+        GlobalContext.f1 = false;
         root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
-        GlobalContext.initialize();
+        GlobalContext.initialize();        
     }        
     
     @FXML
@@ -256,17 +264,20 @@ public class MainController implements Initializable {
         GlobalContext.title = "";
         GlobalContext.f2 = false;
         itemList = null;
+        GlobalContext.f1 = false;
         
         main = (Stage) back2.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("PrimaryInput.fxml"));
         Scene scene = new Scene(root);
         main.setScene(scene);
         main.show();
+        GlobalContext.f1 = false;
     }
     
     @FXML
     private void handleBackAction3(ActionEvent event) throws IOException {
         GlobalContext.categoricalData = new secondlab.Data[0];        
+        GlobalContext.f1 = false;
         tableList = null;
         main = (Stage) back3.getScene().getWindow();                        
         root = FXMLLoader.load(getClass().getResource("MainTemplate.fxml"));
@@ -282,7 +293,10 @@ public class MainController implements Initializable {
     }
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {               
+    public void initialize(URL url, ResourceBundle rb) {
+        if(GlobalContext.f1) {
+            title.setText(GlobalContext.title);
+        }
         if(GlobalContext.f2) {
             GlobalContext.setData(GlobalContext.openEndedSetting);            
             
@@ -291,7 +305,7 @@ public class MainController implements Initializable {
                 
                 summaryTableView.setItems(tableList);
                 summaryTableView.setVisible(true);                
-                summaryTableLabel.setText(GlobalContext.title);            
+                summaryTableLabel.setText(GlobalContext.title);
             }
             else if(GlobalContext.numericChoice) {
                 sampleSizeLabel.setText("n = " + GlobalContext.n);

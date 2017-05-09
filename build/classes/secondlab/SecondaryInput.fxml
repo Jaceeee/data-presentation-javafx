@@ -37,10 +37,15 @@
          <effect>
             <ColorAdjust hue="-0.79" saturation="0.39" />
          </effect></Button>
-      <Label fx:id="errorMessage1" layoutX="145.0" layoutY="359.0" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
-      <Label alignment="CENTER" layoutX="137.0" layoutY="148.0" prefHeight="17.0" prefWidth="115.0" text="Input Number" />
-      <Label alignment="CENTER" layoutX="264.0" layoutY="148.0" prefHeight="17.0" prefWidth="115.0" text="Input" />
-      <ListView fx:id="numbers" layoutX="138.0" layoutY="173.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="127.0" />
-      <ListView fx:id="inputDisplay" layoutX="265.0" layoutY="173.0" prefHeight="160.0" prefWidth="118.0" />
+      <Label fx:id="errorMessage1" layoutX="154.0" layoutY="369.0" prefHeight="17.0" prefWidth="222.0" textFill="RED" />
+      <Label alignment="CENTER" layoutX="137.0" layoutY="175.0" prefHeight="17.0" prefWidth="115.0" text="Input Number" />
+      <Label alignment="CENTER" layoutX="264.0" layoutY="175.0" prefHeight="17.0" prefWidth="115.0" text="Input" />
+      <ListView fx:id="numbers" layoutX="138.0" layoutY="200.0" minWidth="-Infinity" prefHeight="160.0" prefWidth="127.0" />
+      <ListView fx:id="inputDisplay" layoutX="265.0" layoutY="200.0" prefHeight="160.0" prefWidth="118.0" />
+      <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="188.0" layoutY="151.0" prefHeight="17.0" prefWidth="149.0">
+         <font>
+            <Font name="Lucida Bright Regular" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
